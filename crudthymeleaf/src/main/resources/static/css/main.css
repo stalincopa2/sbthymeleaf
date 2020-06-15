@@ -1,0 +1,63 @@
+body {
+  padding: 0;
+  margin: 0;
+  background: #f2f6e9;
+}
+
+/*--- navigation bar ---*/
+
+.navbar {
+  background:#371e17;
+}
+
+.nav-link {
+  color: #fff;
+  cursor: pointer;
+}
+
+.nav-link {
+  margin-right: 1em;
+}
+
+
+.nav-link:hover {
+  color: #f6e0b5;
+}
+
+.navbar-collapse {
+  justify-content: flex-end;
+}
+
+.header {
+  background-image: url('../images/background.jpg');
+  background-size: cover;
+  background-position: center;
+  position: relative;
+}
+
+.overlay {
+  position: absolute;
+  min-height: 100%;
+  min-width: 100%;
+  left: 0;
+  top: 0;
+  background: rgba(0, 0, 0, 0.67);
+}
+
+.description {
+  left: 50%;
+  position: absolute;
+  top: 30%;
+  transform: translate(-50%, -55%);
+  text-align: center;
+}
+
+.description h1 {
+  color: #f6e0b5;
+}
+
+.description p {
+  color: #f6e0b5;
+  font-size: 1.5rem;
+  line-height: 1.5;
+}

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Users</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="/css/main.css">
+
+</head>
+
+<body>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+<script src="/js/main.js"></script>
+
+
+<nav class="navbar navbar-expand-md">
+  
+  <button class="navbar-toggler navbar-dark" type="button" data-toggle="collapse" data-target="#main-navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="main-navigation">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" href="/recetas/list">Ver recetas</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Acerca de</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/recetas/">Inicio</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<header class="page-header header container-fluid">
+<div class="overlay">
+
+    <div class="container my-2">
+        <div class="card">
+            <div class="card-body">
+                <div th:switch="${recipes}" class="container my-5">
+                    <p class="my-5">
+                        <a href="/recetas/signup" class="btn btn-primary"><i class="fas fa-user-plus ml-2"> Add recipe</i></a>
+                    </p>
+                    
+                        <h2 th:case="null">No recipes yet!</h2>
+                        <div th:case="*">
+                            <table class="table table-striped table-responsive-lg">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 60%">Nombre</th>
+                                        <!--  <th>Preparación</th> -->
+                                        <th style="width: 16%">Dificultad</th>
+                                        <th style="width: 8%">Ver</th>
+                                        <th style="width: 8%">Edit</th>
+                                        <th style="width: 8%">Delete</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="receta : ${recipes}">
+                                        <td th:text="${receta.nombre}"></td>
+                                        <!-- <td> <p th:utext="${receta.preparacion}"></p></td> -->
+                                        <td th:text="${receta.dificultad}"></td>
+                                        <td>
+                                        <a data-toggle="modal" data-target="#modalLong" th:attr="data-target='#modalLong'+${receta.id }" class="btn btn-primary">
+                                            <i class="fas fa-glasses ml-2"></i></a>
+                                         <div class="modal fade" th:id="modalLong+${receta.id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  										 	<div class="modal-dialog" role="document">
+    											<div class="modal-content">
+      												<div class="modal-header">
+        											<h5 class="modal-title" id="exampleModalLongTitle">Detalle de receta</h5>
+        											<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          											<span aria-hidden="true">&times;</span>
+        											</button>
+      												</div>
+      												<div class="modal-body">
+        												<h4 th:text="${receta.nombre}"></h4>
+        												<p th:text="${receta.preparacion}"></p>
+        												<!--  <div class="text" th:utext="${#strings.unescapeJava(#strings.replace(#strings.escapeJava(receta.preparacion),'\n','&lt;br /&gt;'))}"></div> -->
+        												<p data-th-utext="${#strings.replace(#strings.escapeXml(receta.preparacion),'&#10;','&lt;br&gt;')}"></p>
+      												</div>
+      												<div class="modal-footer">
+        											<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+											    	</div>
+    											</div>
+  											</div>
+											</div>
+                                        </td>
+                                        
+                                        <td><a th:href="@{/recetas/edit/{id}(id=${receta.id})}" class="btn btn-primary"><i class="far fa-edit ml-2"></i></a></td>
+                                        
+                                        <td><a data-toggle="modal" data-target="#modal-warning" th:attr="data-target='#modal-warning'+${receta.id }" class="btn btn-primary">
+                                            <i class="fas fa-trash-alt ml-2"></i></a>
+                                            <div class="modal modal-warning fade in" th:id="modal-warning+${receta.id}" >
+    											<div class="modal-dialog">
+        											<div class="modal-content">
+            											<div class="modal-header">
+                										<h5 class="modal-title">Delete recipe?</h5>
+                										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                										<span aria-hidden="true">&times;</span></button>
+            											</div>
+            											<div class="modal-body">
+                											<h3 th:text="${receta.nombre}"></h3>
+            											</div>
+            											<div class="modal-footer">
+                										<button type="button" class="btn btn-outline pull-left" data-dismiss="modal">No</button>
+                										<a type="button" class="btn btn-outline" th:href="@{/recetas/delete/{id}(id=${receta.id})}"><i class="fa fa-check"></i>&nbsp;Yes</a>
+            											</div>
+        											</div>
+    											</div>
+											</div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</header>
+    
+</body>
+
+</html>
