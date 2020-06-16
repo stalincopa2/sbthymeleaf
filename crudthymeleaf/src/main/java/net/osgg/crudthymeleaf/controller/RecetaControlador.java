@@ -70,15 +70,24 @@ public class RecetaControlador {
 	 }
 
 	 @PostMapping("update/{id}")
-	 public String updateRecipe(@PathVariable("id") Long id, Receta receta, BindingResult result, Model model) {
+	 //public String addRecipe(@ModelAttribute Receta receta, BindingResult result, Model model, @RequestParam("file") MultipartFile file) {
+	 public String updateRecipe(@PathVariable("id") Long id, Receta receta, BindingResult result, Model model, @RequestParam("file") MultipartFile file) {
 	     if (result.hasErrors()) {
 	          receta.setId(id);
 	          return "update_recipe";
 	     }
 
+	     System.out.println(receta.getId() + " " + receta.getNombre() +  " " + receta.getPreparacion() + 
+	    		 " " + receta.getFoto() + " " + receta.getDificultad() + " " + file.getOriginalFilename() );
+	     
+	     if (!file.isEmpty()) {
+	    	 picService.deletePicture(receta.getFoto());
+		     UUID idPic = UUID.randomUUID();
+		     picService.uploadPicture(file, idPic);
+		     receta.setFoto(idPic);
+	     }
 	     repo.save(receta);
-	        model.addAttribute("recipes", repo.findAll());
-	        return "list_recipes";
+	     return "redirect:/recetas/list";
 	 }
 
 	 @GetMapping("delete/{id}")

@@ -68,7 +68,8 @@
                                         
                                         <td th:text="${receta.dificultad}"></td>
                                         
-                                        <td><img th:src="@{/pic/{id}(id=${receta.foto}+.jpg)}" width="80" class="rounded-circle"></td>
+                                        <td><img th:src="@{/pic/{id}(id=${receta.foto}+.jpg)}" width="80" class="rounded"></td>
+                                        
                                         
                                         <td>
                                         <a data-toggle="modal" data-target="#modalLong" th:attr="data-target='#modalLong'+${receta.id }" class="btn btn-primary">

@@ -32,7 +32,6 @@ public class PictureService {
     
     public void deletePicture(UUID id) {
         try {
-      	 //Path copyLocation = Paths.get(uploadDir + File.separator + id.toString()+".jpg");
           Path fileToDeletePath = Paths.get(uploadDir + File.separator + id.toString()+".jpg");
       	  Files.deleteIfExists(fileToDeletePath);
         } catch (Exception e) {
