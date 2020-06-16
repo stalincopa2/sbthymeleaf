@@ -7,7 +7,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -48,8 +47,7 @@ public class RecetaControlador {
 	 }
 
 	 @PostMapping("add")
-	 //public String uploadToDB3(@ModelAttribute  Receta receta, @RequestParam("file") MultipartFile file) {
-	 public String addRecipe(@ModelAttribute Receta receta, BindingResult result, Model model, @RequestParam("file") MultipartFile file) {
+	 public String addRecipe(Receta receta, BindingResult result, Model model, @RequestParam("file") MultipartFile file) {
 	     if (result.hasErrors()) {
 	        return "add_recipe";
 	     }
@@ -70,15 +68,11 @@ public class RecetaControlador {
 	 }
 
 	 @PostMapping("update/{id}")
-	 //public String addRecipe(@ModelAttribute Receta receta, BindingResult result, Model model, @RequestParam("file") MultipartFile file) {
 	 public String updateRecipe(@PathVariable("id") Long id, Receta receta, BindingResult result, Model model, @RequestParam("file") MultipartFile file) {
 	     if (result.hasErrors()) {
 	          receta.setId(id);
 	          return "update_recipe";
 	     }
-
-	     System.out.println(receta.getId() + " " + receta.getNombre() +  " " + receta.getPreparacion() + 
-	    		 " " + receta.getFoto() + " " + receta.getDificultad() + " " + file.getOriginalFilename() );
 	     
 	     if (!file.isEmpty()) {
 	    	 picService.deletePicture(receta.getFoto());
