@@ -61,3 +61,15 @@ body {
   font-size: 1.5rem;
   line-height: 1.5;
 }
+
+form label {
+  color: #f6e0b5;
+}
+
+table th {
+  color: #f6e0b5;
+}
+
+table td {
+  color: #f6e0b5;
+}

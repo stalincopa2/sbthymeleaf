@@ -1,5 +1,7 @@
 package net.osgg.crudthymeleaf.entities;
 
+import java.util.UUID;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,6 +18,8 @@ public class Receta {
 	
 	private String nombre;
 	
+	private UUID foto;
+
 	private String preparacion;
 	
 	private String dificultad;
@@ -35,6 +39,14 @@ public class Receta {
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
+	
+	public UUID getFoto() {
+		return foto;
+	}
+
+	public void setFoto(UUID foto) {
+		this.foto = foto;
+	}	
 	
 	public String getPreparacion() {
 		return preparacion;
