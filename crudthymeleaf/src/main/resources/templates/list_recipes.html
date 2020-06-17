@@ -28,12 +28,28 @@
       <li class="nav-item">
         <a class="nav-link" href="/recetas/">Inicio</a>
       </li>
+      <div sec:authorize="isAuthenticated()">
+      	<li class="nav-item">
+       		<a class="nav-link" href="/recetas/signup">Nueva receta</a>
+      	</li>
+      </div>
       <li class="nav-item">
         <a class="nav-link" href="#">Acerca de</a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/recetas/login">Administrador</a>
-      </li>      
+      
+      
+      <div th:unless="${#authorization.expression('isAuthenticated()')}">  
+       <li class="nav-item">
+        <a class="nav-link" href="/recetas/login">Iniciar sesión</a>
+       </li>
+      </div>  
+      
+      <div sec:authorize="isAuthenticated()">
+       <li class="nav-item">
+        <a class="nav-link" href="/recetas/logout">Cerrar sesión</a>
+       </li> 
+      </div>
+      
     </ul>
   </div>
 </nav>
@@ -55,21 +71,20 @@
                                         <th style="width: 15%">Dificultad</th>
                                         <th style="width: 10%">Imagen</th>
                                         <th style="width: 8%">Ver</th>
-                                        <th style="width: 8%">Edit</th>
-                                        <th style="width: 8%">Delete</th>
+                                        <div sec:authorize="isAuthenticated()">
+                                           <th style="width: 8%">Edit</th>
+                                           <th style="width: 8%">Delete</th>
+                                        </div>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr th:each="receta : ${recipes}">
                                         <td th:text="${receta.nombre}"></td>
-                                        
                                         <td th:text="${receta.dificultad}"></td>
-                                        
                                         <td><img th:src="@{/pic/{id}(id=${receta.foto}+.jpg)}" width="80" class="rounded"></td>
                                         
-                                        
                                         <td>
-                                        <a data-toggle="modal" data-target="#modalLong" th:attr="data-target='#modalLong'+${receta.id }" class="btn btn-primary">
+                                         <a data-toggle="modal" data-target="#modalLong" th:attr="data-target='#modalLong'+${receta.id }" class="btn btn-primary">
                                             <i class="fas fa-glasses ml-2"></i></a>
                                          <div class="modal fade" th:id="modalLong+${receta.id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
   										 	<div class="modal-dialog" role="document">
@@ -95,7 +110,9 @@
 											</div>
                                         </td>
                                         
+                                        <div sec:authorize="isAuthenticated()">
                                         <td><a th:href="@{/recetas/edit/{id}(id=${receta.id})}" class="btn btn-primary"><i class="fas fa-edit ml-2"></i></a></td>
+                                        
                                         
                                         <td><a data-toggle="modal" data-target="#modal-warning" th:attr="data-target='#modal-warning'+${receta.id }" class="btn btn-primary">
                                             <i class="fas fa-trash-alt ml-2"></i></a>
@@ -118,6 +135,7 @@
     											</div>
 											</div>
                                         </td>
+                                        </div>
                                     </tr>
                                 </tbody>
                             </table>

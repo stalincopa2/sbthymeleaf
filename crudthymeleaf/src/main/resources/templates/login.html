@@ -25,9 +25,19 @@
       <li class="nav-item">
         <a class="nav-link" href="#">Acerca de</a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/recetas/login">Administrador</a>
-      </li>
+
+      <div th:unless="${#authorization.expression('isAuthenticated()')}">  
+       <li class="nav-item">
+        <a class="nav-link" href="/recetas/login">Iniciar sesión</a>
+       </li>
+      </div>  
+      
+      <div sec:authorize="isAuthenticated()">
+       <li class="nav-item">
+        <a class="nav-link" href="/recetas/logout">Cerrar sesión</a>
+       </li> 
+      </div>
+
     </ul>
   </div>
 </nav>

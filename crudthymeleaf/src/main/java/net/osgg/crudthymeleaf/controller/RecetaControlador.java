@@ -3,6 +3,7 @@ package net.osgg.crudthymeleaf.controller;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -20,7 +21,7 @@ import net.osgg.crudthymeleaf.service.PictureService;
 
 
 @Controller
-@RequestMapping("/recetas/")
+@RequestMapping("/recetas")
 public class RecetaControlador {
 
 	 @Autowired
@@ -30,37 +31,45 @@ public class RecetaControlador {
 	    PictureService picService;
 	 
 	 
-	 @RequestMapping("/")
+	 @RequestMapping("")
 	 public String index() {
 		return "index";
 	 }
 	 
-	 @GetMapping("signup")
+	 @GetMapping("/signup")
 	 public String showSignUpForm(Receta receta) {
 	     return "add_recipe";
 	 }
 
 	 
-	 @GetMapping("list")
+	 @GetMapping("/list")
 	 public String showRecipes(Model model) {
 		 model.addAttribute("recipes", repo.findAll());
 	     return "list_recipes";
 	 }
 
 	 
-	 @RequestMapping("login")
+	 @RequestMapping("/login")
 	 public String showLogin() {
 	     return "login";
 	 }
 	 
+	 @GetMapping("/sc")
+	 public String showRecipes() {
+	     return "soundcloud.html";
+	 }	 
 	 
-	 @RequestMapping("admin")
-	 public String showPrivate() {
-	     return "list_recipes_private";
+	 
+	 @PreAuthorize("hasAuthority('admin')")
+	 @RequestMapping("/private")
+	 public String showPrivate(Model model) {
+		 model.addAttribute("recipes", repo.findAll());
+	     return "list_recipes";
 	 }
 	 
 	 
-	 @PostMapping("add")
+	 @PreAuthorize("hasAuthority('admin')")
+	 @PostMapping("/add")
 	 public String addRecipe(Receta receta, BindingResult result, Model model, @RequestParam("file") MultipartFile file) {
 	     if (result.hasErrors()) {
 	        return "add_recipe";
@@ -74,14 +83,17 @@ public class RecetaControlador {
 	     return "redirect:list";
 	 }
 
-	 @GetMapping("edit/{id}")
+	 @PreAuthorize("hasAuthority('admin')")
+	 @GetMapping("/edit/{id}")
 	 public String showUpdateForm(@PathVariable("id") Long id, Model model) {
 	     Receta receta = repo.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid recipe Id:" + id));
 	     model.addAttribute("recipe", receta);
 	     return "update_recipe";
 	 }
 
-	 @PostMapping("update/{id}")
+	 
+	 @PreAuthorize("hasAuthority('admin')")
+	 @PostMapping("/update/{id}")
 	 public String updateRecipe(@PathVariable("id") Long id, Receta receta, BindingResult result, Model model, @RequestParam("file") MultipartFile file) {
 	     if (result.hasErrors()) {
 	          receta.setId(id);
@@ -98,7 +110,8 @@ public class RecetaControlador {
 	     return "redirect:/recetas/list";
 	 }
 
-	 @GetMapping("delete/{id}")
+	 @PreAuthorize("hasAuthority('admin')")
+	 @GetMapping("/delete/{id}")
 	 public String deleteRecipe(@PathVariable("id") Long id, Model model) {
 	     Receta receta = repo.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid recipe Id:" + id));
 	     repo.delete(receta);

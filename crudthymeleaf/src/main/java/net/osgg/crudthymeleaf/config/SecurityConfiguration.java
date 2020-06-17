@@ -35,12 +35,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .formLogin()
             .loginPage("/recetas/login")
             .permitAll()
-            .successForwardUrl("/recetas/admin")
+            .successForwardUrl("/recetas/private")
             .and()
             .logout()
             .permitAll()
-            .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-            .logoutSuccessUrl("/recetas/");
+            .logoutRequestMatcher(new AntPathRequestMatcher("/recetas/logout"))
+            .logoutSuccessUrl("/recetas");
     }	
 	
     @Autowired
