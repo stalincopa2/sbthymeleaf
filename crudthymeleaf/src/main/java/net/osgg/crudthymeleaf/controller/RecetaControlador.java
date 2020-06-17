@@ -29,6 +29,7 @@ public class RecetaControlador {
 	 @Autowired
 	    PictureService picService;
 	 
+	 
 	 @RequestMapping("/")
 	 public String index() {
 		return "index";
@@ -46,6 +47,19 @@ public class RecetaControlador {
 	     return "list_recipes";
 	 }
 
+	 
+	 @RequestMapping("login")
+	 public String showLogin() {
+	     return "login";
+	 }
+	 
+	 
+	 @RequestMapping("admin")
+	 public String showPrivate() {
+	     return "list_recipes_private";
+	 }
+	 
+	 
 	 @PostMapping("add")
 	 public String addRecipe(Receta receta, BindingResult result, Model model, @RequestParam("file") MultipartFile file) {
 	     if (result.hasErrors()) {
