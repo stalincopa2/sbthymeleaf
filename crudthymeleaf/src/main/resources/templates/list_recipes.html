@@ -86,12 +86,12 @@
                                         <td>
                                          <a data-toggle="modal" data-target="#modalLong" th:attr="data-target='#modalLong'+${receta.id }" class="btn btn-primary">
                                             <i class="fas fa-glasses ml-2"></i></a>
-                                         <div class="modal fade" th:id="modalLong+${receta.id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                                         <div class="modal fade" th:id="modalLong+${receta.id}" tabindex="-1" role="dialog" aria-labelledby="detalleReceta" aria-hidden="true">
   										 	<div class="modal-dialog" role="document">
     											<div class="modal-content">
       												<div class="modal-header">
-        											<h5 class="modal-title text-dark" id="exampleModalLongTitle">Detalle de receta</h5>
-        											<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        											<h5 class="modal-title text-dark">Detalle de receta</h5>
+        											<button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
           											<span aria-hidden="true">&times;</span>
         											</button>
       												</div>
@@ -102,17 +102,16 @@
         												<p class="text-dark" data-th-utext="${#strings.replace(#strings.escapeXml(receta.preparacion),'&#10;','&lt;br&gt;')}"></p>
       												</div>
       												<div class="modal-footer">
-        											<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        											<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
 
 											    	</div>
-    											</div>
-  											</div>
-											</div>
+    											   </div>
+  											   </div>
+										 </div>
                                         </td>
                                         
                                         <div sec:authorize="isAuthenticated()">
                                         <td><a th:href="@{/recetas/edit/{id}(id=${receta.id})}" class="btn btn-primary"><i class="fas fa-edit ml-2"></i></a></td>
-                                        
                                         
                                         <td><a data-toggle="modal" data-target="#modal-warning" th:attr="data-target='#modal-warning'+${receta.id }" class="btn btn-primary">
                                             <i class="fas fa-trash-alt ml-2"></i></a>
@@ -120,8 +119,8 @@
     											<div class="modal-dialog">
         											<div class="modal-content">
             											<div class="modal-header">
-                										<h5 class="modal-title text-dark">Delete recipe?</h5>
-                										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                										<h5 class="modal-title text-dark">¿Borrar esta receta?</h5>
+                										<button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
                 										<span aria-hidden="true">&times;</span></button>
             											</div>
             											<div class="modal-body">
@@ -129,7 +128,7 @@
             											</div>
             											<div class="modal-footer">
                 										<button type="button" class="btn btn-outline pull-left" data-dismiss="modal">No</button>
-                										<a type="button" class="btn btn-outline" th:href="@{/recetas/delete/{id}(id=${receta.id})}"><i class="fa fa-check"></i>&nbsp;Yes</a>
+                										<a type="button" class="btn btn-outline" th:href="@{/recetas/delete/{id}(id=${receta.id})}"><i class="fa fa-check"></i>&nbsp;Sí</a>
             											</div>
         											</div>
     											</div>
