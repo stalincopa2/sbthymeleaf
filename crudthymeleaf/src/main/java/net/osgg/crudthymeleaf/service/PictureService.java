@@ -6,10 +6,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.UUID;
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.multipart.MultipartFile;
-
 import org.springframework.stereotype.Service;
 
 @Service
@@ -38,5 +36,4 @@ public class PictureService {
               e.printStackTrace();
          }
      }
-    
 }
