@@ -11,7 +11,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
@@ -26,11 +25,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 "/css/**",
                 "/img/**",
                 "/webjars/**").permitAll()
-            //.antMatchers("/photos/**").hasAnyRole("ADMIN")
-			//.antMatchers("/upload/**").hasAnyRole("USER")
-              //.anyRequest()
-            //.authenticated().and().oauth2Login();
-              //.authenticated()
             .and()
             .formLogin()
             .loginPage("/recetas/login")
@@ -50,7 +44,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
           .inMemoryAuthentication()
           .withUser("admin").password(passwordEncoder().encode("admin")).roles("ADMIN");
     }
-     
     
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {

@@ -19,7 +19,6 @@ import net.osgg.crudthymeleaf.entities.Receta;
 import net.osgg.crudthymeleaf.repository.RecetaRepo;
 import net.osgg.crudthymeleaf.service.PictureService;
 
-
 @Controller
 @RequestMapping("/recetas")
 public class RecetaControlador {
@@ -36,18 +35,16 @@ public class RecetaControlador {
 		return "index";
 	 }
 	 
-	 @GetMapping("/signup")
+	 @GetMapping("/add_recipe")
 	 public String showSignUpForm(Receta receta) {
 	     return "add_recipe";
 	 }
-
-	 
+ 
 	 @GetMapping("/list")
 	 public String showRecipes(Model model) {
 		 model.addAttribute("recipes", repo.findAll());
 	     return "list_recipes";
 	 }
-
 	 
 	 @RequestMapping("/login")
 	 public String showLogin() {
@@ -59,7 +56,6 @@ public class RecetaControlador {
 	     return "soundcloud.html";
 	 }	 
 	 
-	 
 	 @PreAuthorize("hasAuthority('admin')")
 	 @RequestMapping("/private")
 	 public String showPrivate(Model model) {
@@ -67,19 +63,16 @@ public class RecetaControlador {
 	     return "list_recipes";
 	 }
 	 
-	 
 	 @PreAuthorize("hasAuthority('admin')")
 	 @PostMapping("/add")
 	 public String addRecipe(Receta receta, BindingResult result, Model model, @RequestParam("file") MultipartFile file) {
 	     if (result.hasErrors()) {
 	        return "add_recipe";
 	     }
-	     
 	     UUID idPic = UUID.randomUUID();
 	     picService.uploadPicture(file, idPic);
 	     receta.setFoto(idPic);
-	     repo.save(receta);
-	     
+	     repo.save(receta);   
 	     return "redirect:list";
 	 }
 
@@ -90,7 +83,6 @@ public class RecetaControlador {
 	     model.addAttribute("recipe", receta);
 	     return "update_recipe";
 	 }
-
 	 
 	 @PreAuthorize("hasAuthority('admin')")
 	 @PostMapping("/update/{id}")
@@ -114,8 +106,8 @@ public class RecetaControlador {
 	 @GetMapping("/delete/{id}")
 	 public String deleteRecipe(@PathVariable("id") Long id, Model model) {
 	     Receta receta = repo.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid recipe Id:" + id));
-	     repo.delete(receta);
 	     picService.deletePicture(receta.getFoto());
+	     repo.delete(receta);	     
 	     model.addAttribute("recipes", repo.findAll());
 	     return "list_recipes";
 	 }
