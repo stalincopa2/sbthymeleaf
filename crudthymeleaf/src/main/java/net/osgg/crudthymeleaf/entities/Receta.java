@@ -2,6 +2,7 @@ package net.osgg.crudthymeleaf.entities;
 
 import java.util.UUID;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,6 +17,7 @@ public class Receta {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 	
+	//@Column(name = "recetas_nombre")
 	private String nombre;
 	
 	private UUID foto;
