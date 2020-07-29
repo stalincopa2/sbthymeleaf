@@ -24,7 +24,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 "/js/**",
                 "/css/**",
                 "/img/**",
+                "/h2-console/**",
                 "/webjars/**").permitAll()
+            .and().csrf().ignoringAntMatchers("/h2-console/**")
+            .and().headers().frameOptions().sameOrigin()
             .and()
             .formLogin()
             .loginPage("/recetas/login")
